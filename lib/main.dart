@@ -61,14 +61,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
                 onPressed: () => context.read<Capitalize>().capIt(textInput),
-                child: const Text('to caps')),
-            BlocBuilder<Capitalize, MyState>(
+                child: const Text('Capitalize it!')),
+            BlocBuilder<Capitalize, String>(
               builder: (context, caps) => Center(
                 child: Container(
                   color: Colors.blue[50],
                   child: Padding(
                     padding: const EdgeInsets.all(30),
-                    child: Text(caps.capString()),
+                    child: Text(caps),
                   ),
                 ),
               ),
