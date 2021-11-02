@@ -1,26 +1,22 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Capitalize extends Cubit<String> {
-  Capitalize() : super("hello bois");
+class MyState {
+  final String inputString;
 
-  var _textController = StreamController<String>();
-  Stream<String> get textStream => _textController.stream;
+  MyState(this.inputString);
 
-  dispose() {
-    _textController.close();
+  String capString() {
+    return inputString.toUpperCase();
   }
+}
 
-  void updateText(String text) {
-    if (text != null && text != "") {
-      _textController.sink.add(text.toUpperCase());
-    } else {
-      _textController.sink.add("");
-    }
-  }
+class Capitalize extends Cubit<MyState> {
+  Capitalize() : super(MyState('input to start'));
 
-  void capIt() {
-    emit(state.toUpperCase());
+  void capIt(String text) {
+    emit(MyState(text));
   }
 }

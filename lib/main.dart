@@ -33,13 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Capitalize _capBloc = Capitalize();
-
-  @override
-  void dispose() {
-    _capBloc.dispose();
-    super.dispose();
-  }
+  var textInput;
 
   @override
   Widget build(BuildContext context) {
@@ -51,22 +45,34 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextField(
-              onChanged: (String text) => _capBloc.updateText(text),
-            ),
-            BlocBuilder<Capitalize, String>(
-              builder: (context, caps) => Center(
-                child: Text('$caps'),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Enter a string',
+                ),
+                onChanged: (String text) {
+                  setState(() {
+                    textInput = text;
+                  });
+                },
               ),
             ),
-            StreamBuilder(
-              stream: _capBloc.textStream,
-              initialData: "",
-              builder: (context, snapshot) => Text('${snapshot.data}'),
-            ),
             ElevatedButton(
-                onPressed: () => context.read<Capitalize>().capIt(),
-                child: const Text('to caps'))
+                onPressed: () => context.read<Capitalize>().capIt(textInput),
+                child: const Text('to caps')),
+            BlocBuilder<Capitalize, MyState>(
+              builder: (context, caps) => Center(
+                child: Container(
+                  color: Colors.blue[50],
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Text(caps.capString()),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
